@@ -1,0 +1,32 @@
+package com.driver;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class WhatsappService {
+
+
+    WhatsappRepository whatsappRepository=new WhatsappRepository();
+
+    public void createUser(String name,String mobile) throws Exception {
+        whatsappRepository.createUser(name, mobile);
+    }
+
+    public Group createGroup(List<User> users){
+        Group group=whatsappRepository.createGroup(users);
+        return group;
+    }
+
+    public int createMessage(String content){
+        return whatsappRepository.createMessage(content);
+    }
+
+    public int sendMessage(Message message,User sender,Group group)throws Exception{
+        return whatsappRepository.sendMessage(message,sender,group);
+    }
+
+
+}
