@@ -183,7 +183,7 @@ public class WhatsappRepository {
             }
         }
 
-        userHashMap.remove(user.getMobile());
+
 
         groupHashMap.get(group1).remove(user);
 
