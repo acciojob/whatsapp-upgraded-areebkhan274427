@@ -73,30 +73,25 @@ public class WhatsappRepository {
             throw new Exception("You are not allowed to send message");
         }
 
-        Message message1=null;
-        for(Message m:messageList){
-            if(m.getId()==message.getId()){
-                message1=m;
-            }
-        }
+
 
         //Group List
         if(messagesInGroup.containsKey(group)){
-            messagesInGroup.get(group).add(message1);
+            messagesInGroup.get(group).add(message);
         }
         else {
             List<Message> messages=new ArrayList<>();
-            messages.add(message1);
+            messages.add(message);
             messagesInGroup.put(group,messages);
         }
 
         //User List
         if(userMessageList.containsKey(sender)){
-            userMessageList.get(sender).add(message1);
+            userMessageList.get(sender).add(message);
         }
         else {
             List<Message> messages=new ArrayList<>();
-            messages.add(message1);
+            messages.add(message);
             userMessageList.put(sender,messages);
         }
 
@@ -152,6 +147,7 @@ public class WhatsappRepository {
         //If user is not the admin, remove the user from the group, remove all its messages from all the databases, and update relevant attributes accordingly.
         //If user is removed successfully, return (the updated number of users in the group + the updated number of messages in group + the updated number of overall messages)
 
+
         boolean check=false;
         Group group1=null;
         for(Group group:groupHashMap.keySet()){
@@ -159,6 +155,7 @@ public class WhatsappRepository {
                 if(user1.equals(user)){
                     check=true;
                     group1=group;
+                    break;
                 }
             }
         }
