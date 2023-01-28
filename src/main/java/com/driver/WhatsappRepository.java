@@ -145,6 +145,60 @@ public class WhatsappRepository {
 
     }
 
+    public int removeUser(User user)throws Exception{
+        //A user belongs to exactly one group
+        //If user is not found in any group, throw "User not found" exception
+        //If user is found in a group and it is the admin, throw "Cannot remove admin" exception
+        //If user is not the admin, remove the user from the group, remove all its messages from all the databases, and update relevant attributes accordingly.
+        //If user is removed successfully, return (the updated number of users in the group + the updated number of messages in group + the updated number of overall messages)
+
+        boolean check=false;
+        Group group1=null;
+        for(Group group:groupHashMap.keySet()){
+            for(User user1:groupHashMap.get(group)){
+                if(user1.equals(user)){
+                    check=true;
+                    group1=group;
+                }
+            }
+        }
+        if(!check){
+            throw new Exception("User not found");
+        }
+
+        if(groupHashMap.get(group1).get(0).equals(user)){
+            throw new Exception("Cannot remove admin");
+        }
+
+        List<Message> userMessages=userMessageList.get(user);
+
+        for(Group group:messagesInGroup.keySet()){
+            for(Message message:messagesInGroup.get(group)){
+                if(userMessages.contains(message)){
+                    messagesInGroup.get(group).remove(message);
+                }
+            }
+        }
+
+        for(Message message:messageList){
+            if(userMessages.contains(message)){
+                messageList.remove(message);
+            }
+        }
+
+        userHashMap.remove(user.getMobile());
+
+        groupHashMap.get(group1).remove(user);
+
+        userMessageList.remove(user);
+
+        return groupHashMap.get(group1).size()+messagesInGroup.get(group1).size()+messageList.size();
+
+
+
+
+    }
+
 
 
 
