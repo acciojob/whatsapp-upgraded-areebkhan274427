@@ -100,13 +100,13 @@ public class WhatsappController {
         //If user is not the admin, remove the user from the group, remove all its messages from all the databases, and update relevant attributes accordingly.
         //If user is removed successfully, return (the updated number of users in the group + the updated number of messages in group + the updated number of overall messages)
 
-//        try{
-//            return whatsappService.removeUser(user);
-//        }
-//        catch (Exception e){
-//            throw new Exception(e.getMessage());
-//        }
-        return 8;
+        try{
+            return whatsappService.removeUser(user);
+        }
+        catch (Exception e){
+            throw new Exception(e.getMessage());
+        }
+
 
 
     }
