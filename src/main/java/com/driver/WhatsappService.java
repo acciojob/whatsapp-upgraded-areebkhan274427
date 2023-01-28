@@ -29,4 +29,9 @@ public class WhatsappService {
     }
 
 
+    public void changeAdmin(User approver, User user, Group group)throws Exception{
+         whatsappRepository.changeAdmin(approver, user, group);
+    }
+
+
 }

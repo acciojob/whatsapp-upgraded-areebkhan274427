@@ -2,10 +2,7 @@ package com.driver;
 
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 @Repository
 public class WhatsappRepository {
@@ -104,6 +101,47 @@ public class WhatsappRepository {
         }
 
         return messagesInGroup.get(group).size();
+
+    }
+
+    public void changeAdmin(User approver, User user, Group group)throws Exception{
+        //Throw "Group does not exist" if the mentioned group does not exist
+        //Throw "Approver does not have rights" if the approver is not the current admin of the group
+        //Throw "User is not a participant" if the user is not a part of the group
+        //Change the admin of the group to "user" and return "SUCCESS". Note that at one time there is only one admin and the admin rights are transferred from approver to user.
+
+        if(!groupHashMap.containsKey(group)){
+            throw new Exception("Group does not exist");
+        }
+
+        User pastAdmin=groupHashMap.get(group).get(0);
+        if(!approver.equals(pastAdmin)){
+            throw new Exception("Approver does not have rights");
+        }
+
+        boolean check=false;
+        for(User user1:groupHashMap.get(group)){
+            if(user1.equals(user)){
+                check=true;
+            }
+        }
+
+        if(!check){
+            throw new Exception("User is not a participant");
+        }
+
+        User newAdmin=null;
+        Iterator<User> userIterator=groupHashMap.get(group).iterator();
+
+        while(userIterator.hasNext()){
+            User u=userIterator.next();
+            if(u.equals(user)){
+                newAdmin=u;
+                userIterator.remove();
+            }
+        }
+
+        groupHashMap.get(group).add(0,newAdmin);
 
     }
 
